@@ -8,9 +8,9 @@ const app = express();
 app.set('view engine', 'ejs');
 require('dotenv').config();
 
-const mongoString = process.env.DATABASE_URL
+// const mongoString = process.env.MONGO_URL
 
-mongoose.connect(mongoString)
+mongoose.connect("mongodb://mongo:igztmMDj17XU3kvGjadx@containers-us-west-108.railway.app:8040")
 .then((result) => console.log('conectado'))
 .catch((err) => console.log(err))
 
