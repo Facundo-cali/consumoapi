@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 app.set('view engine', 'ejs');
 require('dotenv').config();
 
-const mongoString = process.env.DATABASE_URL
+const mongoString = process.env.MONGO_URL
 
 mongoose.connect(mongoString)
 .then((result) => console.log('conectado'))
