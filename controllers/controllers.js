@@ -53,7 +53,7 @@ module.exports = {
             const id = req.params.id;
             const updatedData = req.body;
             const data = await exportaBaseDatos.findOneAndUpdate({_id:id},updatedData, { new: true });
-            return res.status(200).json({ success: true, data });
+            return res.status(200).json({ data });
         } catch (error) {
             console.log('ERROR: ', error);
             return res.status(400).json({ success: false });
