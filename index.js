@@ -13,7 +13,7 @@ require('dotenv').config();
 
 const mongoString = process.env.MONGO_URL
 
-mongoose.connect(mongoString)
+mongoose.connect("mongodb://mongo:8gbMzB5GZyogztCbz6Mr@containers-us-west-59.railway.app:7332")
 .then((result) => console.log('conectado'))
 .catch((err) => console.log(err))
 
