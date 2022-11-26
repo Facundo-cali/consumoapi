@@ -3,6 +3,7 @@ const { count } = require('console');
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
+const controllers = require('./controllers/controllers');
 const routes = require('./routes/routes');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false}))
@@ -26,6 +27,8 @@ database.on('error', (error) => {
 database.once('connected', () => {
     console.log('Database Connected');
 })
+
+app.get('/api/:id', controllers.getBase);
 
 app.use(cors())
 app.use(express.json());
