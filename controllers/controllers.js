@@ -41,7 +41,7 @@ module.exports = {
         try{
             let id = req.params.id;
             const data = await exportaBaseDatos.findOne({_id:id });
-            return res.json(data)
+            return res.send(data)
         } catch(error) {
             res.status(500).json({message: error.message})   
         }

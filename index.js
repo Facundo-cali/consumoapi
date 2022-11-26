@@ -1,16 +1,19 @@
+const bodyParser = require('body-parser');
 const { count } = require('console');
 const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false}))
+app.use(bodyParser.json())
 
 app.set('view engine', 'ejs');
 require('dotenv').config();
 
-// const mongoString = process.env.MONGO_URL
+const mongoString = process.env.DATABASE_URL
 
-mongoose.connect("mongodb://mongo:igztmMDj17XU3kvGjadx@containers-us-west-108.railway.app:8040")
+mongoose.connect(mongoString)
 .then((result) => console.log('conectado'))
 .catch((err) => console.log(err))
 
