@@ -27,8 +27,11 @@ module.exports = {
             dyp: req.body.dyp
         })
         try {
-            const dataToSave = await data.save();
-            res.status(200).json(dataToSave)
+            data.save((err, dataToSave) => {
+                if(err) res.status(500).send({message: `error al salvar en la base de dato: ${err}`})
+                res.status(200).send({data:dataToSave})
+            });
+            return res.status(200).json(dataToSave)
         }
         catch (error) {
             res.status(400).json({message: error.message})
