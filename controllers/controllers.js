@@ -1,7 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const {exportaBaseDatos} = require('../models/model');
-const passport = require('passport');
+
+
+
 
 
 module.exports = {
@@ -70,6 +72,28 @@ module.exports = {
     // processLogin: passport.authenticate('local', {
     //     failureRedirect: '/get/:id',
     //     successRedirect: '/get/:id'
-    // })
+    // })`
+    authenticate: async (req,res) => {
+        const user = req.body.user;
+        const password = req.body.password;
+        const data = await exportaBaseDatos.findOne({user:user}, (err, done) => {
+            if (err) {
+                res.status(500).send('ERROR AL AUTENTICAR')
+            } else if (!user) {
+                res.status(500).send('EL USER NO EXISTE')
+            } else {
+                data.isCorrectPassword(password, (err, result)=> {
+                    if (err) {
+                        res.status(500).send('ERROR AL AUTENTICAR no ex correcta la contraseña')    
+                    }else if (result) {
+                        res.status(200).send('USUARIO AUTENTICADO CORRECTAMENTE')
+                    }else{
+                        res.status(500).send('USUARIO O CONTRASEÑA INCORRECTA')
+                    }
+                })
+            }
+        });
+
+    }
     
 };

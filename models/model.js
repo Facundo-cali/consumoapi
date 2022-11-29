@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 //TIPO DE PRENDA: CLARA U OSCURA Y VALOR
 const basedatos = new mongoose.Schema({
@@ -92,6 +93,15 @@ const basedatos = new mongoose.Schema({
     },
 })
 
+basedatos.methods.isCorrectPassword = function(password, callback){
+    bcrypt.compare(password, this.password, function(err, same){
+        if (err) {
+            callback(err);  
+        }else{
+            callback(err, same);
+        }
+    })
+}
 
 var exportaBaseDatos = mongoose.model('base', basedatos,'base');
 

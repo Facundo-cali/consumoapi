@@ -5,6 +5,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const app = express();
+const bcrypt = require('bcrypt');
 // const passport = require('passport');
 // require('./config/passport');
 
