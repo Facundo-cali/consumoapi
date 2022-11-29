@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const {exportaBaseDatos} = require('../models/model');
 
 
@@ -6,6 +7,9 @@ module.exports = {
     //-------------------POSTS----------------------------------
     postBase: async (req, res) => {
         let data = new exportaBaseDatos({
+            user:req.body.user,
+            password:bcrypt.hashSync(req.body.password, 10),
+            email:req.body.email,
             shablon_borrado: req.body.shablon_borrado,
             shablon_nuevo: req.body.shablon_nuevo,
             shablon_usado: req.body.shablon_usado,
