@@ -5,8 +5,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const app = express();
-const passport = require('passport');
-require('./config/passport');
+// const passport = require('passport');
+// require('./config/passport');
 
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
@@ -25,8 +25,8 @@ mongoose.connect(process.env.MONGO_URL,
     .then(() => console.log('MongoDB Conectada'))
     .catch(err => console.log(err)
 );
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 
 app.use(cors())
