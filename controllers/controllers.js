@@ -73,16 +73,16 @@ module.exports = {
     //     failureRedirect: '/get/:id',
     //     successRedirect: '/get/:id'
     // })`
-    authenticate: async (req,res) => {
+    authenticate: (req,res) => {
         const user = req.body.user;
         const password = req.body.password;
-        const data = await exportaBaseDatos.findOne({user:user}, (err, done) => {
+        const data = exportaBaseDatos.findOne({user:user}, (err, done) => {
             if (err) {
                 res.status(500).send('ERROR AL AUTENTICAR')
             } else if (!done) {
                 res.status(500).send('EL USER NO EXISTE')
             } else {
-                exportaBaseDatos.isCorrectPassword(password, (err, result)=> {
+                done.isCorrectPassword(password, (err, result)=> {
                     if (err) {
                         res.status(500).send('ERROR AL AUTENTICAR no ex correcta la contraseña')    
                     }else if (result) {
