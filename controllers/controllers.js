@@ -82,7 +82,7 @@ module.exports = {
             } else if (!done) {
                 res.status(500).send('EL USER NO EXISTE')
             } else {
-                data.isCorrectPassword(password, (err, result)=> {
+                exportaBaseDatos.isCorrectPassword(password, (err, result)=> {
                     if (err) {
                         res.status(500).send('ERROR AL AUTENTICAR no ex correcta la contraseña')    
                     }else if (result) {
