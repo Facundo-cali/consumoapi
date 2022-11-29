@@ -82,7 +82,7 @@ module.exports = {
 
         let validacionPw = bcrypt.compareSync(req.body.password, usuarioEncontrado.password);
         if (validacionPw) {
-            return res.send('VALIDACION EXITOSA')
+            return res.redirect('/api/get/6386701dc811b95485a893fd')
         }
         
 
