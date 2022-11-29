@@ -10,7 +10,7 @@ passport.use(new LocalStrategy({
 }, async (user, password, done) => {
 
     // Encontrando usuario
-    const user = await exportaBaseDatos.findOne({user})
+    const users = await exportaBaseDatos.findOne({user})
     if (!user){
         return done(null, false, { message: 'Not User Found'})
     }else{
