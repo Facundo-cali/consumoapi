@@ -1,11 +1,9 @@
-const express = require('express');
+
 const bcrypt = require('bcrypt');
 const {exportaBaseDatos} = require('../models/model');
-const bodyParser = require('body-parser');
-const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false}))
-app.use(bodyParser.json())
+
+
 
 
 
