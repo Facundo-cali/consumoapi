@@ -81,7 +81,10 @@ module.exports = {
         const usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
 
         let validacionPw = bcrypt.compareSync(req.body.password, usuarioEncontrado.password);
-        return res.send(data)
+        if (validacionPw) {
+            return res.send('VALIDACION EXITOSA')
+        }
+        
 
     }
     
