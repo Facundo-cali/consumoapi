@@ -79,7 +79,7 @@ module.exports = {
         const data = await exportaBaseDatos.findOne({user:user}, (err, done) => {
             if (err) {
                 res.status(500).send('ERROR AL AUTENTICAR')
-            } else if (!user) {
+            } else if (!done) {
                 res.status(500).send('EL USER NO EXISTE')
             } else {
                 data.isCorrectPassword(password, (err, result)=> {
