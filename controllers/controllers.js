@@ -76,16 +76,20 @@ module.exports = {
     //     successRedirect: '/get/:id'
     // })`
     authenticate: async (req,res) => {
-        const user = req.body.user;
-        const password = req.body.password;
-        const usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
+        try {
+            const user = req.body.user;
+            const password = req.body.password;
+            const usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
 
-        let validacionPw = bcrypt.compareSync(req.body.password, usuarioEncontrado.password);
-        if (validacionPw) {
-            return res.redirect('/api/get/6386701dc811b95485a893fd')
+            let validacionPw = bcrypt.compareSync(password, usuarioEncontrado.password);
+            if (validacionPw) {
+                return res.redirect('/api/get/6386701dc811b95485a893fd')
+            }
+        } catch (error) {
+            res.status(500).json({message: error.message})   
         }
         
-
+        
     }
     
 };
