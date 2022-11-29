@@ -13,7 +13,7 @@ router.patch('/updateBase/:id', controllers.updateBase)
 
 
 //LOGIN
-
+router.get('/login', controllers.showLogin);
 
 
 

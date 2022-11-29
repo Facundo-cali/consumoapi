@@ -5,11 +5,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
 const app = express();
+const passport = require('passport');
+require('./config/passport');
+
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(bodyParser.json())
 
 app.set('view engine', 'ejs');
 require('dotenv').config();
+
+
 
 //mongodb  
 mongoose.connect(process.env.MONGO_URL,
@@ -20,16 +25,9 @@ mongoose.connect(process.env.MONGO_URL,
     .then(() => console.log('MongoDB Conectada'))
     .catch(err => console.log(err)
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
-const database = mongoose.connection
-
-database.on('error', (error) => {
-    console.log(error)
-})
-
-database.once('connected', () => {
-    console.log('Database Connected');
-})
 
 app.use(cors())
 app.use(express.json());

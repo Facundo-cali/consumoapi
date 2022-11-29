@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const {exportaBaseDatos} = require('../models/model');
+const passport = require('passport');
 
 
 module.exports = {
@@ -40,7 +41,6 @@ module.exports = {
     },
     //-------------------FINAL POSTS----------------------------------
     //----------------------------GETS----------------------------------- 
-
     getBase: async (req, res) => {
         try{
             let id = req.params.id;
@@ -63,4 +63,13 @@ module.exports = {
             return res.status(400).json({ success: false });
         }
     },
+
+    showLogin: (req, res) => {
+		res.render('login');
+	},
+    processLogin: passport.authenticate('local', {
+        failureRedirect: '/get/:id',
+        successRedirect: '/get/:id'
+    })
+    
 };
