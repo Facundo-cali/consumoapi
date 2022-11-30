@@ -4,10 +4,6 @@ const {exportaBaseDatos} = require('../models/model');
 
 
 
-
-
-
-
 module.exports = {
     //-------------------POSTS----------------------------------
     postBase: async (req, res) => {
@@ -78,18 +74,22 @@ module.exports = {
     authenticate: async (req,res) => {
         try {
             const user = req.body.user;
-            const password = req.body.password;
-            const usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
-
-            let validacionPw = bcrypt.compareSync(password, usuarioEncontrado.password);
-            if (validacionPw) {
-                return res.redirect('/api/get/6386701dc811b95485a893fd')
+            let usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
+            if (!usuarioEncontrado) {
+                return res.send('EL USUARIO NO EXISTE')
             }
+
+            let validacionPw = bcrypt.compareSync(req.body.password, usuarioEncontrado.password);
+            if (validacionPw) {
+                return res.redirect(`/api/get/${usuarioEncontrado._id}`)
+            }else{
+                return res.send('CONTRASEÑA INCORRECTA')
+            }
+            
         } catch (error) {
             res.status(500).json({message: error.message})   
         }
         
         
     }
-    
 };

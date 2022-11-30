@@ -1,31 +1,26 @@
 
 const { count } = require('console');
 const cors = require('cors');
-const express = require('express');
+var path = require('path');
+var express = require('express')
 const mongoose = require('mongoose');
-const routes = require('./routes/routes');
 const app = express();
-// const passport = require('passport');
-// require('./config/passport');
 
-
-app.set('view engine', 'ejs');
 require('dotenv').config();
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs');
 
-
+const routes = require('./routes/routes');
 
 //mongodb  
 mongoose.connect(process.env.MONGO_URL,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => console.log('MongoDB Conectada'))
-    .catch(err => console.log(err)
+{
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB Conectada'))
+.catch(err => console.log(err)
 );
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 
 app.use(cors())
 app.use(express.json());
