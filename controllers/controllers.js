@@ -68,25 +68,30 @@ module.exports = {
 		res.render('login');
 	},
     
-    authenticate: async (req,res) => {
+    login: (req, res) => {
         try {
-            const user = req.body.user;
+            if (!req.query.username || !req.query.password) {
+            res.send('login failed');
+            } else if(req.query.username === "admin" || req.query.password === "admin") {
+            req.session.user = "admin";
+            req.session.admin = true;
+            res.send("login success!");
+        }
+        } catch (error) {
+            res.status(500).json({message: error.message})   
+        }  
+    },
+
+    getContent: async (req,res) => {
+        const user = req.query.username;
+        try {
             let usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
             if (!usuarioEncontrado) {
                 return res.send('EL USUARIO NO EXISTE')
             }
-
-            let validacionPw = bcrypt.compareSync(req.body.password, usuarioEncontrado.password);
-            if (validacionPw) {
-                return res.redirect(`/api/get/${usuarioEncontrado._id}`)
-            }else{
-                return res.send('CONTRASEÑA INCORRECTA')
-            }
-            
+            return res.redirect(`/get/${usuarioEncontrado._id}`)
         } catch (error) {
             res.status(500).json({message: error.message})   
         }
-        
-        
     }
 };
