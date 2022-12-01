@@ -67,10 +67,7 @@ module.exports = {
     showLogin: (req, res) => {
 		res.render('login');
 	},
-    // processLogin: passport.authenticate('local', {
-    //     failureRedirect: '/get/:id',
-    //     successRedirect: '/get/:id'
-    // })`
+    
     authenticate: async (req,res) => {
         try {
             const user = req.body.user;
