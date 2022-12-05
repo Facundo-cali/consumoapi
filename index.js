@@ -1,11 +1,9 @@
-
 const { count } = require('console');
 const cors = require('cors');
 var path = require('path');
 var express = require('express')
 const mongoose = require('mongoose');
 const app = express();
-const auth = require('./middleware/auth')
 
 const session = require('express-session');
 
@@ -16,13 +14,11 @@ app.use(session({
 }));
 
 require('dotenv').config();
-app.set('views', path.join(__dirname, '/views'));
-app.set('view engine', 'ejs');
 
 const routes = require('./routes/routes');
 
 //mongodb  
-mongoose.connect(process.env.MONGO_URL,
+mongoose.connect(process.env.DATABASE_URL,
 {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -30,10 +26,12 @@ mongoose.connect(process.env.MONGO_URL,
 .then(() => console.log('MongoDB Conectada'))
 .catch(err => console.log(err)
 );
-//mis middlewares
-app.use(auth);
 
-app.use(cors())
+const corsOptions = {
+    optionsSuccessStatus: 200,
+    credentials: true,
+  }
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use('/api', routes)
 

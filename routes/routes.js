@@ -10,23 +10,21 @@ module.exports = router;
 
 //POST BASE
 router.post('/post/base', controllers.postBase);
-//METODO GET de shablon 
-router.get('/get/:id', controllers.getBase);
 //UPDATE BASE
-router.patch('/updateBase/:id', controllers.updateBase)
+router.patch('/updateBase/:id',auth, controllers.updateBase)
 
 
 //LOGIN
 router.get('/login', controllers.login);
 // Get content endpoint
-app.get('/content/', auth, controllers.getContent);
+router.get('/content/:id', auth, controllers.getContent);
 //logout
-app.get('/logout', function (req, res) {
+router.get('/logout', function (req, res) {
     req.session.destroy();
     res.send("logout success!");
 });
 
-// router.post('/login',urlencodedParser, controllers.authenticate)
+
 
 
 

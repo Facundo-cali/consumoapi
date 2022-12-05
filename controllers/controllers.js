@@ -40,17 +40,7 @@ module.exports = {
         }
     },
     //-------------------FINAL POSTS----------------------------------
-    //----------------------------GETS----------------------------------- 
-    getBase: async (req, res) => {
-        try{
-            let id = req.params.id;
-            const data = await exportaBaseDatos.findOne({_id:id });
-            return res.send(data)
-        } catch(error) {
-            res.status(500).json({message: error.message})   
-        }
-    },
-    //----------------------------FINAL GETS----------------------------------- 
+
     //----------------------------PATCHS----------------------------------- 
     updateBase:  async (req, res) => {
         try {
@@ -64,34 +54,37 @@ module.exports = {
         }
     },
 
-    showLogin: (req, res) => {
-		res.render('login');
-	},
-    
-    login: (req, res) => {
+    //------------------LOGGIN---------------------------------
+    login: async (req, res) => {
         try {
-            if (!req.query.username || !req.query.password) {
-            res.send('login failed');
-            } else if(req.query.username === "admin" || req.query.password === "admin") {
-            req.session.user = "admin";
-            req.session.admin = true;
-            res.send("login success!");
-        }
+            let usuarioEncontrado = await exportaBaseDatos.findOne({user:req.query.user});
+            if (usuarioEncontrado){
+                let validacionPw = bcrypt.compareSync(req.query.password, usuarioEncontrado.password);
+
+                if (validacionPw == false){
+                    res.send("Credenciales invalidas"); 
+                }
+                
+                req.session.user = JSON.stringify(usuarioEncontrado.user);
+                req.session.admin = true;
+                    
+                res.redirect(`/api/content/${usuarioEncontrado.id}`);
+            }else{
+                res.send("Credenciales invalidas");
+            }
+            
         } catch (error) {
-            res.status(500).json({message: error.message})   
-        }  
+            res.status(500);
+        }      
     },
 
     getContent: async (req,res) => {
-        const user = req.query.username;
-        try {
-            let usuarioEncontrado = await exportaBaseDatos.findOne({user:user});
-            if (!usuarioEncontrado) {
-                return res.send('EL USUARIO NO EXISTE')
-            }
-            return res.redirect(`/get/${usuarioEncontrado._id}`)
-        } catch (error) {
-            res.status(500).json({message: error.message})   
+        try{
+            let id = req.params.id;
+            const data = await exportaBaseDatos.findOne({_id:id});
+            res.json(data)
+        } catch(error) {
+            res.status(500); 
         }
-    }
+    },  
 };
